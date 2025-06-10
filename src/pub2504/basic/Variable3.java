@@ -9,7 +9,7 @@ package pub2504.basic;
  	3. (default) : 동일 패키지 접근 가능
  	4. private : 동일 클래스에서 접근 가능
  	
- 	접근범위 : public < protected > default > private
+ 	접근범위 : public > protected > default > private
  			 --------------------> 접근 제한 강도 높음
  */
 

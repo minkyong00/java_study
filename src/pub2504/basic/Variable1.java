@@ -16,8 +16,7 @@ public class Variable1 {
 		char c = 'A'; // 2바이트 유니코드
 		boolean bool = true; // 1바이트 (true 또는 false의 값만 가짐)
 		
-		// 정수와 실수는 비트구성이 다르기 때문에 4바이트 실수인 float가 8바이트 정수인 long보다
-		// 표현범위가 더 넓음
+		// 정수와 실수는 비트구성이 다르기 때문에 4바이트 실수인 float가 8바이트 정수인 long보다 표현범위가 더 넓음
 		
 		// 표현범위 : double > float > long > int > short > byte
 		
