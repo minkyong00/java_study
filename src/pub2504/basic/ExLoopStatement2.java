@@ -1,5 +1,7 @@
 package pub2504.basic;
 
+import java.util.Scanner;
+
 public class ExLoopStatement2 {
 
 	public static void main(String[] args) {
@@ -181,21 +183,47 @@ public class ExLoopStatement2 {
 //	j	1 3 5 3 1
 //	k	2 1 0 1 2
 		
-		//1 3 5
-		
+		//1 3 5 3 1
+		//  2(2(2-i) + 1
 		System.out.println();
 		
-		for(int i=0; i<3; i++) {
-			for(int k=3-i; k>0; k--) {
+		for(int i=0; i<5; i++) {
+			for(int k=Math.abs(2-i); k>0; k--) {
 				System.out.print(' ');				
 			}
-			for(int j=0; j<(2*i)-i; j++) {
+			for(int j=0; j<5-2*(Math.abs(2-i)); j++) {
 				System.out.print('*');
 			}
 			System.out.println();
 		}
 		
+		System.out.println();
 		
+//		k = |2-i|
+//		k = (5-j)/2
+//		if i<middle then k = 2-i=((2*middle + 1)-j)/2
+//		else k = -2+i=i-2=((2*middle + 1)-j)/2
+//		전체 줄수 = 2*middle + 1
+//		((2*middle + 1)-i)/middle = (total -i)/middle = middle-i
+		int line = 5;
+		int middle = line/2;
+		int kEnd = 0; // k반복의 끝 값 = 공백의 수
+		int jEnd = 0; // j반복의 끝 값 = 공백의 수
+		
+		for(int i=0; i<line; i++) {
+			if(i < middle) {
+				kEnd = middle - i;
+				jEnd = 2*i + 1;
+			} else {
+				kEnd =i - middle;
+				jEnd = (line*2 - 1) -2*i;
+			}
+			for(int k=0; k<kEnd; k++) System.out.print(' ');
+			for(int j=0; j<jEnd; j++) System.out.print('*'); 
+			System.out.println();
+		}
+		
+		System.out.println();
 		
 		
 		// 보너스 실습 2)
@@ -210,6 +238,21 @@ public class ExLoopStatement2 {
 		  
 		 */
 		
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("별의 행 개수를 입력하세요");
+		int rowCount = scanner.nextInt();
+		int center = rowCount / 2;
+		
+		for(int i=0; i<rowCount; i++) {
+			for(int k=Math.abs(center-i); k>0; k--) {
+				System.out.print(' ');				
+			}
+			for(int j=0; j<rowCount-2*(Math.abs(center-i)); j++) {
+				System.out.print('*');
+			}
+			System.out.println();
+		}
 		
 		
 		
