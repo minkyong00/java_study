@@ -29,11 +29,66 @@ public class StringTokenizerTest {
 		
 		String str3 = "a,b,c\nd,e,f\n1,2,3";
 		
-		StringTokenizer st3 = new StringTokenizer(str3, ",");
+		StringTokenizer st3 = new StringTokenizer(str3, "\n");
+		while(st3.hasMoreTokens()) {			
+			StringTokenizer st4 = new StringTokenizer(st3.nextToken(), ",");
+			while(st4.hasMoreTokens()) {
+				System.out.println(st4.nextToken());
+			}
+		}
 		
-		while(st3.hasMoreTokens()) {
-			System.out.println(st3.nextToken());
-		}	
+		
+	      // 실습
+	      // str4 문자열을 토크나이징해서 아래 형식으로 출력
+	      // 번호:1, 이름:홍길동, 이메일:hong@hong.com, 전화번호:(010)0000-0000
+	      // 번호:2, 이름:강감찬, 이메일:kang@kang.com, 전화번호:(010)1111-2222
+	      // 번호:3, 이름:이순신, 이메일:lee@lee.com, 전화번호:(010)2222-2222
+	      
+	      String str4 = "[";
+	      str4 += "{\"name\": \"홍길동\", \"email\": \"hong@hong.com\", \"tel\": \"010-0000-0000\"},";
+	      str4 += "{\"name\": \"강감찬\", \"email\": \"kang@kang.com\", \"tel\": \"010-1111-1111\"},";
+	      str4 += "{\"name\": \"이순신\", \"email\": \"lee@lee.com\", \"tel\": \"010-2222-2222\"}";
+	      str4 += "]";		
+	      System.out.println(str4);
+	      StringBuilder personSb = new StringBuilder();
+	      
+	      
+	      StringTokenizer st5 = new StringTokenizer(str4, ",");
+	      while(st5.hasMoreTokens()) {
+	    	  StringTokenizer st6 = new StringTokenizer(st5.nextToken(), "{");
+	    	  while(st6.hasMoreTokens()) {
+	    		  StringTokenizer st7 = new StringTokenizer(st6.nextToken(), "}");
+	    		  while(st7.hasMoreTokens()) {
+	    			  StringTokenizer st8 = new StringTokenizer(st7.nextToken(), ":");
+	    			  while(st8.hasMoreTokens()) {
+	    				  StringTokenizer st9 = new StringTokenizer(st8.nextToken(), "\"");
+	    				  while(st9.hasMoreTokens()) {
+	    					  String st9Token = st9.nextToken();
+		    				  personSb.append(st9Token);
+	    				  }
+	    			  }
+	    		  }
+	    	  }
+	      }
+	      
+	      personSb.trimToSize();
+	      System.out.println(personSb);
+	      System.out.println(personSb.substring(6, 9));
+	      System.out.println(personSb.substring(16, 30));
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      
+	      
 		
 	} // main
 	
