@@ -13,20 +13,20 @@ public class APIExtra7 {
 		System.out.println("영문 대소문자를 포함한 문자열을 입력해주세요");
 		str1 = sc.nextLine();
 		
+		String result = "";
+		
 		int strLeng = str1.length();
 		for(int i=0; i<strLeng; i++) {
 			char c = str1.charAt(i);
 			
 			if(Character.isUpperCase(c)) {
-				Character.toLowerCase(c);
+				c = Character.toLowerCase(c);
+			} else if(Character.isLowerCase(c)) {
+				c = Character.toUpperCase(c);
 			}
-			if(Character.isLowerCase(c)) {
-				Character.toUpperCase(c);
-			}
-			
-			System.out.println(c);
+			result += c;
 		}
-		System.out.println(str1);
+		System.out.println(result);
 		
 		
 	}
