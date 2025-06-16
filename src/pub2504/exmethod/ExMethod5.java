@@ -10,12 +10,14 @@ public class ExMethod5 {
 		new Student("이순신", 90, 50, 60)	
 	};
 	
+	static int studentArrLeng = studentArr.length;
+	
 	public static void main(String[] args) {
 		printStudentSorce(studentArr);
 	}
 	
 	static void printStudentSorce(Student[] student) {
-		int studentArrLeng = studentArr.length;
+		
 		for(Student stu : studentArr) {
 			int kor = stu.kor;
 			int eng = stu.eng;

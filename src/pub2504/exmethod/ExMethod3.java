@@ -17,11 +17,11 @@ public class ExMethod3 {
 		
 		int a = sc.nextInt();
 		int b = sc.nextInt();
-		String str = sc.next(Pattern.compile("[+-]|[/*]"));
 		
 		try {
+			String str = sc.next(Pattern.compile("[+-]|[/*]"));
 			
-			// 스위치로 변경해보기
+			
 			if(str.equals("+")) {
 				int sum = a + b;
 				print(a, b, str, sum);
@@ -43,6 +43,8 @@ public class ExMethod3 {
 			sc.close();
 		}
 	}
+	
+	
 	
 	static void print(int a, int b, String s, int result) {
 		System.out.printf("%d %s %d = %d", a, s, b, result);
