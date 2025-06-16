@@ -9,25 +9,44 @@ public class APIExtra7 {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		String str1 = "";
-		System.out.println("영문 대소문자를 포함한 문자열을 입력해주세요");
-		str1 = sc.nextLine();
+//		String str1 = "";
+//		System.out.println("영문 대소문자를 포함한 문자열을 입력해주세요");
+//		str1 = sc.nextLine();
+//		
+//		String result = "";
+//		
+//		int strLeng = str1.length();
+//		for(int i=0; i<strLeng; i++) {
+//			char c = str1.charAt(i);
+//			
+//			if(Character.isUpperCase(c)) {
+//				c = Character.toLowerCase(c);
+//			} else if(Character.isLowerCase(c)) {
+//				c = Character.toUpperCase(c);
+//			}
+//			result += c;
+//		}
+//		System.out.println(result);
+//		
+//		sc.close();
 		
-		String result = "";
+		String line = Util.getLineText(1)[0];
 		
-		int strLeng = str1.length();
-		for(int i=0; i<strLeng; i++) {
-			char c = str1.charAt(i);
-			
-			if(Character.isUpperCase(c)) {
-				c = Character.toLowerCase(c);
-			} else if(Character.isLowerCase(c)) {
-				c = Character.toUpperCase(c);
+		char[] chArr = line.toCharArray();
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(char ch : chArr) {
+			byte b = (byte)ch;
+			if((b > 64 && b < 91) || (b > 96 && b < 123)) {
+				if(b < 91) {
+					sb.append((char)(ch+32));
+				} else {
+					sb.append((char)(ch-32));
+				}
 			}
-			result += c;
 		}
-		System.out.println(result);
 		
-		
+		System.out.println(sb);
 	}
 }

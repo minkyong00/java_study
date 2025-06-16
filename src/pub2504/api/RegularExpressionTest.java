@@ -85,7 +85,7 @@ public class RegularExpressionTest {
         // 정규표현식 실습 2
         // 아래 문자열을 공백 기준으로 단어들을 분리해서 출력
         String rstr2 = "Java is powerful and simple";		
-		String[] rstr2Arr = rstr2.split("\\s");
+		String[] rstr2Arr = rstr2.split("\\s+");
 		for(String rstr : rstr2Arr) {
 			System.out.println(rstr);
 		}
@@ -114,13 +114,13 @@ public class RegularExpressionTest {
        // 정규표현식 실습 5
        // 아래 문자열이 휴대폰 번호 형식이 맞는지 확인 후 출력
        String rstr5 = "010-1234-5678";
-       System.out.println(rstr5.matches("\\d{3}-\\d{4}-\\d{4}"));
+       System.out.println(rstr5.matches("^\\d{3}-\\d{4}-\\d{4}$"));
        
       
        // 정규표현식 실습 6
        // 아래 문자열에서 HTML 태그를 제거 후 출력
        String rstr6 = "<p>Hello<br><b>World</b>";
-       String rstr6Token = rstr6.replaceAll("</?[a-z]+>", "");
+       String rstr6Token = rstr6.replaceAll("</?[a-z]+>", ""); // <[^>]*>
        System.out.println(rstr6Token);
        
       
@@ -140,7 +140,7 @@ public class RegularExpressionTest {
             "02-1234-5678",
             "031-1234-5678"
        };
-       String regex = "\\d{2,3}-\\d{3,4}-\\d{4}";
+       String regex = "^\\d{2,3}-\\d{3,4}-\\d{4}$";
        for(String tel : telArr) {
     	   System.out.println(tel.matches(regex));
        }
@@ -157,31 +157,22 @@ public class RegularExpressionTest {
             "701301-1234567",
             "601201-5234567"
        };      
-       String regex1 = "\\d{2}([0]\\d | [1][0-2])([0]\\d | [1-2]\\d | [3][0-1])-[1-4]\\d{6}";
+       String regex1 = "^\\d{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|[3][0-1])-[1-4]\\d{6}$";
        for(String ssn : ssnArr) {
     	   System.out.println(ssn.matches(regex));
        }
-       
        
       
        // 정규표현식 실습 10
        // 아래 문자열의 다양한 날짜 형식들을 "YYYY-MM-DD" 형식으로 출력
        String rstr10 = "오늘은 2025-06-13이고, 작년엔 2024.06.12에 회의를 했고, 다음 회의는 2025/06/15입니다.";
-       String[] rstr10Token = rstr10.replaceAll("\\D", "").split("\\s");
-       
-       int rstr10Leng = rstr10Token.length;
-       for(int i=0; i<rstr10Leng; i++) {
-    	   System.out.println(rstr10Token[i]);
+       String rstr10Token = rstr10.replaceAll("[./]", "-");
+       Pattern pattern10 = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
+       Matcher matcher10 = pattern10.matcher(rstr10Token);
+       while(matcher10.find()) {
+    	   System.out.println(matcher10.group());
        }
        
-		
-		
-		
-		
-		
-		
-		
-		
 		
 	} // main
 } // class
