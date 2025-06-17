@@ -1,0 +1,23 @@
+# 모델링 실습1
+# 일상생활에서 5개 이상의 모듈로 구성된 예를 찾아 클래스 관계를 모델링해 봅니다.
+# 팀별 1인 발표(발표자 팀별 선정)
+# 17:35분 부터 팀별 1인 발표, 발표자는 팀에서 선정
+
+# 핸드폰  ()
+# 운영체계 (이름(ios, android), 버전, 개발사(developer), 카메라(타입(후면, 전면),화소pixel, 줌), 
+# 앱 (이름,개발사 ), 저장장치(타입, 총용량, 사용용량)
+# 디스플레이 (해상도, 크기, 종류) 
+
+
+private String brand;
+	private String name;
+	private int price;
+	private String telecom;
+	private Case c;
+	private Charger charger;
+	private SmartWatch smartWatch;
+	private EarPhone earphone;
+	private Film film;
+	
+	모듈을 핸드폰으로 잡음
+	핸드폰의 
