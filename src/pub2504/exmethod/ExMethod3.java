@@ -7,12 +7,35 @@ import java.util.regex.Pattern;
 public class ExMethod3 {
 	// 2개 정수, 연산자 입력하면 사칙연산 수행하는 프로그램
 	// 기능별로 따로 따로 만들기(입력, 연산, 프린트 따로)
+	static Scanner sc = new Scanner(System.in);
+	
 	public static void main(String[] args) {
 		numAddMulSubDiv();
 	}
 	
+	static int calcNum(String str, int[] intArr) {
+		switch(str) {
+			case "+":
+				return intArr[0] + intArr[1];
+			case "-":
+				return intArr[0] - intArr[1];
+			case "/":
+				return intArr[0] / intArr[1];
+			case "*":
+				return intArr[0] * intArr[1];
+		}
+		return 0;
+	}
+	
+	static int[] inputNums() {
+		int[] intArr = new int[2];
+		intArr[0] = sc.nextInt();
+		intArr[1] = sc.nextInt();
+		return intArr;
+	}
+	
+	
 	static void numAddMulSubDiv() {
-		Scanner sc = new Scanner(System.in);
 		System.out.println("2개의 정수와 연산자를 입력하세요!");
 		
 		int a = sc.nextInt();

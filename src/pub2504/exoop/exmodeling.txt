@@ -1,0 +1,20 @@
+# 모델링 실습1
+# 일상생활에서 5개 이상의 모듈로 구성된 예를 찾아 클래스 관계를 모델링해 봅니다.
+# 팀별 1인 발표(발표자 팀별 선정)
+# 17:35분 부터 팀별 1인 발표, 발표자는 팀에서 선정
+
+# 핸드폰 ()
+# 케이스(타입(고무, 하드), 브랜드, 가격), 충전기(타입, 가격, 브랜드), 
+# 이어폰 (브랜드, 가격, 타입), 필름(타입(방탄, 사생활 방지), 브랜드, 가격)
+# 스마트워치 (가격, 브랜드, 화면크기, 세대) 
+
+
+private String brand;
+	private String name;
+	private int price;
+	private String telecom;
+	private Case c;
+	private Charger charger;
+	private SmartWatch smartWatch;
+	private EarPhone earphone;
+	private Film film;
