@@ -4,7 +4,7 @@ public class GiftShop {
 
 	private String itemName; // 판매하는 아이템 이름
 	private String location; // 장소
-	private int price; // 가격
+	private int price; // 아이템 가격
 	
 	public GiftShop() {
 	}

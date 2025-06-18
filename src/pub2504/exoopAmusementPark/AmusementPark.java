@@ -1,6 +1,5 @@
 package pub2504.exoopAmusementPark;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class AmusementPark {
