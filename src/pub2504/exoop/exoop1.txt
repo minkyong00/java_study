@@ -1,20 +1,44 @@
 # package : pub2504.exoop
-# exoop1.txt
+# exoop2.txt
 
-# OOP 실습 1
+# OOP 실습 2
+# 아래 요구사항에 맞도록 인터페이스, 추상클래스, 클래스들을 설계해 봅니다.
 
-# 파일 : Person.java, PersonMain.java
+# 인터페이스 breathe 
+# 추상클래스 organism(이름, 나이) plant(), aniaml(food, 기능: eat, sleep)
+# 클래스 Carnivore(tiger, lion, 고기), Herbivore(cow, deer, 풀), 사람(Animal)
 
-# Person은 name(이름)과 age(나이)와 ssn(주민번호)를 가집니다.
+# 생물은 동물과 식물로 나뉜다.
+# 모든 동물은 숨을 쉰다. 먹는다. 잔다.
+# 모든 식물은 숨을 쉰다.
+# 모든 동물과 식물은 이름과 나이가 있다.
+# 초식 동물은 풀을 먹는다.
+# 육식 동물은 고기를 먹는다.
+# 육식동물에는 호랑이와 사자가 있다.
+# 초식동물에는 소와 사슴이 있다.
+# 사람은 육식동물이면서 초식동물이다.
 
-# 생성된 객체는 아래의 이름, 나이, 주민번호 중 무작위로 1개씩을 가집니다.
-# 이름 : 홍길동, 이순신, 강감찬
-# 나이 : 20, 30, 40
-# 주민번호 : 000000-0000000, 111111-1111111, 222222-2222222
+# 호랑이, 사자, 소, 사슴을 한마리씩 생성해 숨을 쉬고 먹고 자도록 합니다.
 
-# 1초마다 Person객체가 1개씩 생성됩니다.
+# 모델링이 끝나면 동료와 모델링에 대해 토론해 봅니다.
 
-# 만약 이름과 나이와 주민번호가 같은 Person이 생성된다면
-# "이미 생성된 Person 입니다"를 출력합니다.
+#생물   Living Thing / Organism
+#동물   Animal
+#식물   Plant
+#숨을 쉬다   breathe
+#먹다   eat
+#자다   sleep
+#이름   name
+#나이   age
+#초식동물   Herbivore
+#육식동물   Carnivore
+#풀   grass
+#고기   meat
+#호랑이   Tiger
+#사자   Lion
+#소   Cow
+#사슴   Deer
+#사람   Human
 
-# 10초간 Person 10명을 생성하고 생성된 모든 Person의 정보를 출력합니다.
+
+
