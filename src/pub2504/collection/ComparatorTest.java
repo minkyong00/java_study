@@ -94,7 +94,22 @@ public class ComparatorTest {
 
 			@Override
 			public int compare(String s1, String s2) {
-				return Integer.parseInt(s1.substring(0, 1)) - Integer.parseInt(s2.substring(0, 1));
+				int year1 = Integer.parseInt(s1.substring(0, 2));
+				int year2 = Integer.parseInt(s2.substring(0, 2));
+				int fullyear1 = 0;
+				int fullyear2 = 0;
+				if(year1 >= 0 && year1 < 26) {
+					fullyear1 = 2000 + year1;
+				}else {
+					fullyear1 = 1900 + year1;
+				}
+				if(year2 >= 0 && year2 < 26) {
+					fullyear2 = 2000 + year2;
+				} else {
+					fullyear2 = 1900 + year2;
+				}
+				return fullyear1 - fullyear2;
+				
 			}
 	    	  
 	      });
