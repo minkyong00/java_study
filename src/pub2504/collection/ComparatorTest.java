@@ -94,24 +94,27 @@ public class ComparatorTest {
 
 			@Override
 			public int compare(String s1, String s2) {
-				int year1 = Integer.parseInt(s1.substring(0, 2));
-				int year2 = Integer.parseInt(s2.substring(0, 2));
-				int fullyear1 = 0;
-				int fullyear2 = 0;
-				if(year1 >= 0 && year1 < 26) {
-					fullyear1 = 2000 + year1;
-				}else {
-					fullyear1 = 1900 + year1;
-				}
-				if(year2 >= 0 && year2 < 26) {
-					fullyear2 = 2000 + year2;
-				} else {
-					fullyear2 = 1900 + year2;
-				}
-				return fullyear1 - fullyear2;
+//				int year1 = Integer.parseInt(s1.substring(0, 2));
+//				int year2 = Integer.parseInt(s2.substring(0, 2));
+//				int fullyear1 = 0;
+//				int fullyear2 = 0;
+//				
+//				if(year1 >= 0 && year1 < 26) fullyear1 = 2000 + year1; 
+//				else fullyear1 = 1900 + year1;
+//				
+//				if(year2 >= 0 && year2 < 26) fullyear2 = 2000 + year2;
+//				else fullyear2 = 1900 + year2;
+//				
+//				return fullyear1 - fullyear2;
+				
+				String shortYear1 = s1.substring(0, 2);
+				String longYear1 = s1.startsWith("0") ? "20" + shortYear1 : "19" + shortYear1;
+				String shortYear2 = s2.substring(0, 2);
+				String longYear2 = s2.startsWith("0") ? "20" + shortYear2 : "19" + shortYear2;
+				return Integer.parseInt(longYear1) - Integer.parseInt(longYear2);
+				
 				
 			}
-	    	  
 	      });
 	      
 	      System.out.println(ssnList);
@@ -193,15 +196,11 @@ public class ComparatorTest {
 					if(pro1.name.equals(pro2.name)) {
 						return pro2.price - pro1.price;
 					}
-					return pro1.name.charAt(0) - pro2.name.charAt(0);
+					return pro1.name.compareTo(pro2.name);
 				}			
-				
 		  });
 		
 	      System.out.println(prodList);
-	     
-	      
-	      
 		
 	} // main
 } // class
