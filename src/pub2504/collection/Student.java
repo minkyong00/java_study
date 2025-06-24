@@ -36,6 +36,7 @@ public class Student {
 		return name + "님은 " + score + "점입니다!";
 	}
 	
+	// 객체의 참조주소가 다르기 때문에 equals를 오버라이딩해야함
 	@Override
 	public boolean equals(Object obj) {
 		return this.name.equals(((Student)obj).getName())
