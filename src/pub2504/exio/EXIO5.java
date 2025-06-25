@@ -1,12 +1,16 @@
 package pub2504.exio;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 /*
@@ -29,59 +33,43 @@ public class EXIO5 {
 
 	public static void main(String[] args) {
 		
-		FileReader fe = null;
-		
 		File file = new File("C:\\pub2504\\eclipse_workspace\\pub2504\\src\\pub2504\\exio\\Enter_korea_by_age.csv");
+		Map<String, List<KoreaVisitor>> korvisitorMap = new HashMap<String, List<KoreaVisitor>>();
+		
 		
 		try {
+			Scanner scanner = new Scanner(file);
 			
-			fe = new FileReader(file);
+			scanner.nextLine();
 			
-			// file 읽어서 콘솔에 출력
-			int fileLeng = (int) file.length();
-			char[] charArr = new char[fileLeng];
-			for(int i=0; i<fileLeng; i++) {
-				charArr[i] = (char) fe.read();
+			while(scanner.hasNextLine()) {
+				String fileStr = scanner.nextLine();
+				
+				StringTokenizer st = new StringTokenizer(fileStr, ",");
+				
+				if(st.countTokens() >= 4) {
+					st.nextToken();
+					String nation =  st.nextToken();
+					double visitor = Integer.parseInt(st.nextToken());
+					st.nextToken();
+//					double growth = Integer.parseInt(st.nextToken());
+				
+					List<KoreaVisitor> korList = Arrays.asList(
+						new KoreaVisitor(nation, visitor)
+					);
+					
+					System.out.println(korList);
+						
+				}
+				
 			}
-			String str = new String(charArr);
-			
-			String[] strArr = str.split("\\,");
-			List<String> strList = Arrays.asList(strArr);
-			System.out.println(strList);
-			int strListSize = strList.size()/10 -1;
-//			System.out.println(strListSize);
-			for(int i=0; i<strListSize; i++) {
-				System.out.println(strList.subList((i*10)+12, (i*10)+13).get(0));				
-			}
-			
-			List<Integer> visitorList = new ArrayList<Integer>();
+						
 			
 			
-//			Map<String, > strMap = strList.stream().collect(Collectors.groupingBy()); 
-			
-			
-			// 나라 60국가
-			// 연도 19.01 - 20.04 16개월
-			// 방문 성장
-			
-			// 19.01
-			// 12, 13 중국
-			// 23, 24 일본
-			// 34, 35 대만
-			// 45, 47 홍콩
-			
-			// 19.02
-			// 
-			
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} finally {
-			try {
-				fe.close();
-			} catch (IOException ioe) {
-				ioe.printStackTrace();
-			}
+		} catch (FileNotFoundException fnfe) {
+			fnfe.printStackTrace();
 		}
+		
 		
 	} // main
 	
