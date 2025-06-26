@@ -1,4 +1,4 @@
-package pub2504.exio;
+package pub2504.exio_1;
 
 import java.io.File;
 import java.io.FileReader;
@@ -8,30 +8,30 @@ import java.io.Reader;
 import java.io.Writer;
 
 public class ExCharStream {
-	
+
 	public static void main(String[] args) {
+		// name.txt 파일 생성하여 파일에 본인의 이름 쓰고 읽어서 출력
 		
 		Writer writer = null;
 		Reader reader = null;
 		
+		File file = new File("C:\\pub2504\\files\\name.txt");
+		
 		try {
-			
-			File file = new File("C:\\pub2504\\files\\name.txt");
 			writer = new FileWriter(file);
-			writer.write("홍길동");
+			writer.write("김민경");
 			writer.flush();
 			
 			reader = new FileReader(file);
-			System.out.print((char)reader.read());
-			System.out.print((char)reader.read());
-			System.out.print((char)reader.read());
-			
-			/* 2)
-			int i = 0;
-			while((i=reader.read()) > -1) {
-				System.out.print((char)i);
+			int count = (int) file.length();
+			char[] charArr = new char[count];
+			for(int i=0; i<count; i++) {
+				charArr[i] = (char)(reader.read());
 			}
-			*/
+			
+			for(char c : charArr) {
+				System.out.printf("%c", c);
+			}
 			
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -44,6 +44,5 @@ public class ExCharStream {
 			}
 		}
 		
-	} // main	
-
-}
+	} //main
+} // class

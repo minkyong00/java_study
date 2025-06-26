@@ -7,35 +7,34 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class ExbyteStream {
+public class ExByteStream {
 	
 	public static void main(String[] args) {
-		// byte.dat파일에 byte하나 쓰고 읽어서 출력
 		
-		InputStream is = null;
 		OutputStream os = null;
-		
-		File file = new File("C:\\pub2504\\files\\byte.dat");
+		InputStream is = null;
 		
 		try {
+			
+			File file = new File("C:\\pub2504\\files\\byte.dat");
 			os = new FileOutputStream(file);
-			os.write(65);
+			os.write((byte)1);
 			os.flush();
 			
 			is = new FileInputStream(file);
-			System.out.println((char)(is.read()));
-			
+			System.out.println(is.read());
+					
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} finally {
 			try {
+				is.close();
 				os.close();
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}
 		}
 		
-		
-	} // main
+	} // main	
 
-} // class
+}
