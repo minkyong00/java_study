@@ -1,10 +1,10 @@
-package pub2504.exio;
+package pub2504.exio_1;
 
 public class Student {
-
+	
 	private String name;
 	private Score score;
-
+	
 	public Student() {
 	}
 
@@ -29,9 +29,10 @@ public class Student {
 		this.score = score;
 	}
 
+	
 	@Override
 	public String toString() {
-		return name + " " + score;
+		return name + " 학생의 " + score + "\n";
 	}
-
+	
 }

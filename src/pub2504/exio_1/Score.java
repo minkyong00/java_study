@@ -1,4 +1,4 @@
-package pub2504.exio;
+package pub2504.exio_1;
 
 public class Score {
 
@@ -23,14 +23,6 @@ public class Score {
 		this.kor = kor;
 	}
 
-	public int getEng() {
-		return eng;
-	}
-
-	public void setEng(int eng) {
-		this.eng = eng;
-	}
-
 	public int getMath() {
 		return math;
 	}
@@ -39,9 +31,17 @@ public class Score {
 		this.math = math;
 	}
 
+	public int getEng() {
+		return eng;
+	}
+
+	public void setEng(int eng) {
+		this.eng = eng;
+	}
+	
 	@Override
 	public String toString() {
-		return "국어:" + kor + ", 영어:" + eng + ", 수학:" + math;
+		return "국어: " + kor + ", 영어: " + eng + ", 수학: " + math;
 	}
 
 }
