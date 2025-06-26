@@ -13,6 +13,10 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -67,7 +71,13 @@ public class ObjectTest3 {
 			// Json 문자열을 ArrayList<Todo>로 변환
 			ArrayList<Todo> todoList
 				= gson.fromJson(jsonStr, new TypeToken<ArrayList<Todo>>() {}.getType());
-//			System.out.println(todoList);
+			System.out.println(todoList);
+//			Map<Integer, List<Todo>> userIdGroupedMap
+//				= todoList.stream().collect(Collectors.groupingBy(Todo::getUserId));
+//			System.out.println(userIdGroupedMap);
+//			for(Entry<Integer, List<Todo>> entry : userIdGroupedMap.entrySet()) {
+//				System.out.println("userId=" + entry.getKey() + ", title=" + entry.getValue().get(0).getTitle());
+//			}
 			
 			File file = new File("C:\\pub2504\\files\\todo.dat");
 			
@@ -78,7 +88,7 @@ public class ObjectTest3 {
 			// 역직렬화
 			ois = new ObjectInputStream(new FileInputStream(file));
 			ArrayList<Todo> list = (ArrayList<Todo>) ois.readObject();
-			list.stream().forEach(System.out::println);
+//			list.stream().forEach(System.out::println);
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();

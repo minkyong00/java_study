@@ -55,7 +55,7 @@ public class Todo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Todo [userId=" + userId + ", id=" + id + ", title=" + title + ", completed=" + completed + "]";
+		return "Todo [userId=" + userId + ", id=" + id + ", title=" + title + ", completed=" + completed + "] \n";
 	}
 
 }

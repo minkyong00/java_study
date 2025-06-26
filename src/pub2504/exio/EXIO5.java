@@ -12,9 +12,11 @@ import java.util.stream.Collectors;
 
 public class EXIO5 {
 
+	// 상수 파일 경로
 	private static final String FILE_PATH 
 		= "C:\\pub2504\\files\\Enter_korea_by_age.csv";
 	
+	// koreaVisitor 객체를 담은 리스트
 	private static List<KoreaVisitor> kvList = new ArrayList<>();
 
 	public static void main(String[] args) {
@@ -30,7 +32,9 @@ public class EXIO5 {
 		}
 	} // main
 
+	// 파일 데이터 로딩하는 메소드
 	private static void loadData(String path) {
+		// 
 		try (Scanner scanner = new Scanner(Paths.get(path))) {
 			scanner.nextLine();
 			while (scanner.hasNextLine()) {
