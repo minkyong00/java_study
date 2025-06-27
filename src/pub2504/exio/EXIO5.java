@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 public class EXIO5 {
 
+
 	// 상수 파일 경로
 	private static final String FILE_PATH 
 		= "C:\\pub2504\\files\\Enter_korea_by_age.csv";
