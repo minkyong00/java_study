@@ -1,5 +1,9 @@
 package pub2504.exthread;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 // [쓰레드 실습]
 // ExThread5 : 요리와 배달을 처리하는 메인쓰레드
 // ChefThread : 3초동안 요리를 하는 쓰레드
@@ -90,5 +94,17 @@ package pub2504.exthread;
 */
 
 public class ExThread5 {
+	
+	public static void main(String[] args) {
+
+		List<String> name = Arrays.asList("스파게티", "피자", "치킨", "떡볶이");
+		List<Order> orderList = new ArrayList<Order>();
+		for(int i=0; i<10; i++) {
+			orderList.add(new Order((i+1), name.get((int)(Math.random()*4))));
+		}
+		new ChefThread(orderList).start();
+		new DeliveryThread(orderList).start();
+		
+	}
 
 }
