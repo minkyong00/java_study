@@ -20,14 +20,6 @@ import com.google.gson.JsonObject;
 /*
 
 [공공API 활용 실습2]
-http://apis.data.go.kr/1613000/SubwayInfoService/getSubwaySttnAcctoSchdulList
-?serviceKey=bafEXsp3A%2FiNM6SrdTReCSgGSp3PZcxqoiD08onBtPTnKgLGfaCfkXnJa15dbR8zVjWpmN99qG5QMrpT%2FjWbuQ%3D%3D
-&subwayStationId=MTRS11133
-&dailyTypeCode=01
-&upDownTypeCode=D
-&numOfRows=10
-&pageNo=1
-&_type=json
 역명 입력하면 해당 역의 시간표 출력
 역명_timetable.csv로 저장
 */
@@ -75,20 +67,26 @@ public class ExPubAPI2 {
 	
 	// api jsonObject로 변환
 	private static JsonObject getJsonObect(String url, String api) throws Exception {
-		HttpRequest request = HttpRequest.newBuilder()
-				.uri(URI.create(url)).GET().build();
+		
+		HttpRequest request = 
+				HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
+		
 		HttpResponse<String> response 
 			= client.send(request, HttpResponse.BodyHandlers.ofString());
-		JsonObject jsonObject = gson.fromJson(response.body(), JsonObject.class)
-				.getAsJsonObject(api);
+		
+		JsonObject jsonObject 
+			= gson.fromJson(response.body(), JsonObject.class).getAsJsonObject(api);
+		
 		return jsonObject;
 	} // getJsonObject
 	
 	// 열차 시간표 출력 메소드
 	private static List<String[]> getAPIData(String count) throws Exception {
+		
 		String url = REQUEST_URL + count + "/" + subwayCode + "/1/1/";
-		JsonArray jsonArray = getJsonObect(url, "SearchSTNTimeTableByIDService")
-			.getAsJsonArray("row");
+		JsonArray jsonArray 
+			= getJsonObect(url, "SearchSTNTimeTableByIDService").getAsJsonArray("row");
+		
 		List<String[]> strList = new ArrayList<String[]>();
 		for(JsonElement e : jsonArray) {
 			JsonObject obj = e.getAsJsonObject();
@@ -103,23 +101,28 @@ public class ExPubAPI2 {
 	
 	// 지하철역 입력하면 지하철 코드 출력
 	private static List<String> getSubwayCode(String subwayName) throws Exception {
+		
 		String url = REQUEST_CODE_URL + subwayName;
-		JsonObject stationObj = getJsonObect(url, "SearchInfoBySubwayNameService")
+		JsonObject stationObj 
+			= getJsonObect(url, "SearchInfoBySubwayNameService")
 				.get("row").getAsJsonArray()
 				.get(0).getAsJsonObject();
+		
 		List<String> strList = Arrays.asList(
 			stationObj.get("STATION_CD").getAsString(),
 			subwayName
 		);
+		
 		return strList;
 	} // getSubwayCode
 
 	// 지하철역 시간표 전체 개수 출력
 	private static String getSubwayTimeCount() throws Exception {
-		// 164/2647/1/1/
+		//http://openapi.seoul.go.kr:8088/46644750596d696e3832594e516569/json/SearchInfoBySubwayNameService/1/5/선릉
 		String url = REQUEST_URL + "120/" + subwayCode + "/1/1";
-		String count = getJsonObect(url, "SearchSTNTimeTableByIDService")
-			.get("list_total_count").getAsString();
+		String count 
+			= getJsonObect(url, "SearchSTNTimeTableByIDService")
+				.get("list_total_count").getAsString();
 		return count;
 	} // getSubwayTimeCount
 
