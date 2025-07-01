@@ -1,12 +1,18 @@
 package pub2504.network;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,22 +48,27 @@ public class ExPubAPI2 {
 	public static void main(String[] args) {
 		
 		PrintWriter pw = null;
+		OutputStreamWriter osw = null;
 		
 		try {
 			
-			subwayCode = getSubwayCode("화랑대").get(0);
-			subwayName = getSubwayCode("화랑대").get(1);
+			subwayCode = getSubwayCode("선릉").get(0);
+			subwayName = getSubwayCode("선릉").get(1);
 			
 			File file = new File("C:\\pub2504\\files\\" + subwayName + "_timetable.csv");
-			pw = new PrintWriter(new FileWriter(file));
+			// fileWriter를 만들 때 캐릭터셋을 지정해주지 않으면 운영환경에 따라 바뀜
+			// -> csv 파일 한글이 깨짐
+			osw = new OutputStreamWriter(new FileOutputStream(file), Charset.forName("EUC-KR"));
 			List<String[]> data = getAPIData(getSubwayTimeCount());
-			pw.println("출발시간,도착시간,종착역");
+			osw.write("출발시간,도착시간,종착역\n");
 			System.out.println("출발시간,도착시간,종착역");
 			for(String[] line : data) {
-				pw.println(String.join(",", line));
+				osw.write(String.join(",", line) + "\n");
 				System.out.println(String.join(",", line));
 			}
-			pw.close();
+			osw.close();
+			
+			System.out.println(test("선릉").get(0));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,14 +110,38 @@ public class ExPubAPI2 {
 		return strList;
    } // getAPIData  
 	
+	
+	private static JsonArray test(String subwayName) throws Exception {
+		
+		String url = REQUEST_CODE_URL + subwayName;
+//		JsonObject stationObj 
+//			= getJsonObect(url, "SearchInfoBySubwayNameService")
+//				.get("row").getAsJsonArray()
+//				.get(1).getAsJsonObject();
+		
+		JsonArray stationArr = getJsonObect(url, "SearchInfoBySubwayNameService")
+				.get("row").getAsJsonArray();
+		
+//		List<String> strList = Arrays.asList(
+//				stationObj.get("STATION_CD").getAsString(),
+//				subwayName
+//		);
+		
+		return stationArr;
+	}
+	
 	// 지하철역 입력하면 지하철 코드 출력
+	// 한 역에 다른 호선도 추가해야함
 	private static List<String> getSubwayCode(String subwayName) throws Exception {
 		
 		String url = REQUEST_CODE_URL + subwayName;
 		JsonObject stationObj 
 			= getJsonObect(url, "SearchInfoBySubwayNameService")
 				.get("row").getAsJsonArray()
-				.get(0).getAsJsonObject();
+				.get(1).getAsJsonObject();
+		
+//		JsonArray stationArr = getJsonObect(url, "SearchInfoBySubwayNameService")
+//				.get("row").getAsJsonArray();
 		
 		List<String> strList = Arrays.asList(
 			stationObj.get("STATION_CD").getAsString(),
