@@ -2,12 +2,11 @@ package pub2504.exgui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -22,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.MenuEvent;
@@ -45,8 +45,8 @@ public class ExMemoPad3 extends JFrame {
    
    private static final long serialVersionUID = 328940723948793L;
 
-    private DefaultListModel<String> memoListModel = null;
-    private JList<String> memoList = null;
+    private ListModel<Memo> memoListModel = null;
+    private JList<Memo> memoList = null;
     private JTextArea memoTextArea = null;
     private JTextField memoTextField = null;
     private List<Memo> inputMemoList = null;
@@ -66,7 +66,7 @@ public class ExMemoPad3 extends JFrame {
         JMenuItem fileMenuItemNew = new JMenuItem("새메모");
         JMenuItem fileMenuItemOpen = new JMenuItem("열기");
         JMenuItem fileMenuItemSave = new JMenuItem("저장");
-        fileMenu.add(fileMenuItemNew);
+//        fileMenu.add(fileMenuItemNew);
         fileMenu.add(fileMenuItemOpen);
         fileMenu.add(fileMenuItemSave);
         jMenuBar.add(fileMenu);
@@ -77,7 +77,7 @@ public class ExMemoPad3 extends JFrame {
         infoMenu.addMenuListener(new MenuListener() {
          @Override
          public void menuSelected(MenuEvent e) {
-            JLabel message = new JLabel("Copyright 2025 Realchoky");
+            JLabel message = new JLabel("Copyright 2025 minkyoung");
             message.setHorizontalAlignment(SwingConstants.CENTER);
             JOptionPane.showMessageDialog(jframe, message);
          }
@@ -89,8 +89,8 @@ public class ExMemoPad3 extends JFrame {
          }
       });
         
-        memoListModel = new DefaultListModel<String>();
-        memoList = new JList<String>(memoListModel);
+        memoListModel = new DefaultListModel<Memo>();
+        memoList = new JList<Memo>(memoListModel);
         memoList.setPreferredSize(new Dimension(250, 600));
         memoList.setBackground(Color.GRAY);
         memoList.setFont(new Font("굴림", Font.BOLD, 20));
@@ -139,19 +139,24 @@ public class ExMemoPad3 extends JFrame {
         }
         
         // 동일한 제목 등록 불가
-        int selectedIndex = memoList.getSelectedIndex();
-        if(selectedIndex > 1) {
-        	if (inputMemoList.get(selectedIndex).getTitle().equals(memoTitle)) {
-        		JOptionPane.showMessageDialog(this, "메모 제목 중복입니다!");
-        		return;
+    		for(Memo memo : inputMemoList) {
+        		if (memo.getTitle().equals(memoTitle)) {
+        			JOptionPane.showMessageDialog(this, "메모 제목 중복입니다!");
+        			return;
+        		}
         	}
-        }
         
         String memoContent = memoTextArea.getText().trim();
         if (!memoContent.isEmpty()) {
-        	inputMemoList.add(new Memo(memoTitle, memoContent));
-            memoListModel.addElement(memoTitle);
-            memoTextArea.setText("");
+        	
+        	// 메모 객체 생성
+        	Memo newMemo = new Memo(memoTitle, memoContent);
+        	inputMemoList.add(newMemo);
+        	
+        	// ListModel에 addElement없으므로 DefaultListModel<Memo> 형변환함
+        	((DefaultListModel<Memo>) memoListModel).addElement(newMemo);
+        	
+        	memoTextArea.setText("");
             memoTextField.setText("");
             JOptionPane.showMessageDialog(this, "메모가 등록되었습니다.");
         } else {
@@ -169,13 +174,14 @@ public class ExMemoPad3 extends JFrame {
                return;
             }           
             String memoContent = memoTextArea.getText().trim();
+            System.out.println(memoTitle + memoContent);
             if (!memoContent.isEmpty()) {
-            	 inputMemoList.get(selectedIndex).setTitle(memoTitle);
-            	 inputMemoList.get(selectedIndex).setContent(memoContent);
-            	 memoTextArea.setText("");
-                 memoTextField.setText("");
-                 // 메모 리스트에 수정한 값 추가해야함
-                 JOptionPane.showMessageDialog(this, "메모가 수정되었습니다.");
+            	Memo newMemo = inputMemoList.get(selectedIndex);
+            	newMemo.setTitle(memoTitle);
+            	newMemo.setContent(memoContent);
+            	inputMemoList.set(selectedIndex, newMemo);
+            	((DefaultListModel<Memo>)memoListModel).set(selectedIndex, newMemo);
+                JOptionPane.showMessageDialog(this, "메모가 수정되었습니다.");
             } else {
                 JOptionPane.showMessageDialog(this, "메모 내용을 입력하세요.");
             }
@@ -189,7 +195,7 @@ public class ExMemoPad3 extends JFrame {
         int selectedIndex = memoList.getSelectedIndex();
         if (selectedIndex != -1) {
         	inputMemoList.remove(selectedIndex);
-            memoListModel.remove(selectedIndex);
+            ((DefaultListModel<Memo>) memoListModel).remove(selectedIndex);
             memoTextField.setText("");
             memoTextArea.setText("");
             JOptionPane.showMessageDialog(this, "메모가 삭제되었습니다.");
@@ -202,9 +208,8 @@ public class ExMemoPad3 extends JFrame {
     private void displaySelectedMemo() {
         int selectedIndex = memoList.getSelectedIndex();
         if (selectedIndex != -1) {
-           String memoTitle = memoListModel.get(selectedIndex);
-           memoTextField.setText(memoTitle);
-           memoTextArea.setText(inputMemoList.get(selectedIndex).getTitle());
+        	memoTextField.setText(inputMemoList.get(selectedIndex).getTitle());
+        	memoTextArea.setText(inputMemoList.get(selectedIndex).getContent());
         }
     }
     

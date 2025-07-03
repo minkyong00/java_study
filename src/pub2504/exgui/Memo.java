@@ -31,7 +31,7 @@ public class Memo {
 
 	@Override
 	public String toString() {
-		return "Memo [title=" + title + ", content=" + content + "]";
+		return title;
 	}
 
 }
