@@ -5,11 +5,19 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -26,6 +34,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import pub2504.network.Data;
 
 // 과제 : GUI 메모장 프로그램 (V3, V4) ~ 7/6, 능력단위평가 대체
 
@@ -58,6 +75,7 @@ public class ExMemoPad3 extends JFrame {
        setTitle("메모장 프로그램");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         
         JMenuBar jMenuBar = new JMenuBar();
@@ -74,7 +92,9 @@ public class ExMemoPad3 extends JFrame {
         
         JFrame jframe = this;
         
+        // 정보 메뉴에 리스너 추가
         infoMenu.addMenuListener(new MenuListener() {
+         // 정보 선택 시 메세지창 보여줌
          @Override
          public void menuSelected(MenuEvent e) {
             JLabel message = new JLabel("Copyright 2025 minkyoung");
@@ -88,6 +108,23 @@ public class ExMemoPad3 extends JFrame {
          public void menuCanceled(MenuEvent e) {
          }
       });
+        
+        // 저장 클릭 시 파일 json형태로 저장
+        fileMenuItemSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveFile(inputMemoList);
+			}
+		});
+        
+        fileMenuItemOpen.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openFile();
+			}
+		});
         
         memoListModel = new DefaultListModel<Memo>();
         memoList = new JList<Memo>(memoListModel);
@@ -128,7 +165,8 @@ public class ExMemoPad3 extends JFrame {
         add(centerPanel, BorderLayout.CENTER);
 
         setVisible(true);
-    }
+        
+    } // init
 
     // 메모 등록 메소드
     private void addMemo() {
@@ -162,7 +200,7 @@ public class ExMemoPad3 extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "메모 내용을 입력하세요.");
         }
-    }
+    } // addMemo
 
     // 메모 수정 메서드
     private void editMemo() {
@@ -188,7 +226,7 @@ public class ExMemoPad3 extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "수정할 메모를 선택하세요.");
         }
-    }
+    } // editMemo
 
     // 메모 삭제 메서드
     private void deleteMemo() {
@@ -202,7 +240,7 @@ public class ExMemoPad3 extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "삭제할 메모를 선택하세요.");
         }
-    }
+    } // deleteMemo
 
     // 선택된 메모를 화면에 표시
     private void displaySelectedMemo() {
@@ -211,7 +249,7 @@ public class ExMemoPad3 extends JFrame {
         	memoTextField.setText(inputMemoList.get(selectedIndex).getTitle());
         	memoTextArea.setText(inputMemoList.get(selectedIndex).getContent());
         }
-    }
+    } // displaySelectedMemo
     
     // 버튼에 리스너 추가
     private void addActionListener(JButton... jbuttons) {
@@ -224,14 +262,61 @@ public class ExMemoPad3 extends JFrame {
              }
           });
        }
-    }
+    } // addActionListener
     
     // 패널에 버튼 추가
     private void addButtons(JPanel jpanel, JButton... jbuttons) {
        for (JButton jbutton : jbuttons) {
           jpanel.add(jbutton);
        }
-    }
+    } // addButtons
+    
+    // 메모리스트 C:\\pub2504\\memojson\\memo_년월일시분초.json 형태로 저장
+    private void saveFile(List<Memo> inputmemoList) {
+    	new File("C:\\pub2504\\memojson").mkdir();
+    	
+    	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    	
+    	// List<Memo> -> json문자열
+    	String memo = gson.toJson(inputmemoList);
+    	
+    	Date date = new Date();
+    	SimpleDateFormat sdf = new SimpleDateFormat("YYMMddHHmmss");
+    	
+    	PrintWriter pw = null;
+    	try {
+    		
+    		if(memo.isEmpty()) {
+    			JOptionPane.showMessageDialog(this, "저장할 json파일이 없습니다!");
+    			return;
+    		}
+    		
+    		pw = new PrintWriter("C:\\pub2504\\memojson\\memo_" + sdf.format(date) + ".json");
+    		pw.append(memo);
+    		pw.flush();
+    		
+    		JOptionPane.showMessageDialog(this, "memo_" + sdf.format(date) + ".json 파일 저장 완료!");
+    		
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pw.close();
+		}
+    	
+    } // saveFile
+    
+    // 파일 열기
+    public void openFile() {
+    	JFileChooser chooseFile = new JFileChooser();
+    	int returnVal = chooseFile.showOpenDialog(this);
+    	if(returnVal == JFileChooser.APPROVE_OPTION) {
+    		System.out.println(chooseFile.getSelectedFile());
+    		
+    		// reader로 파일 읽어와서 memoList에 보여주기
+    	}
+    	
+    	
+    } // openFile
 
     public static void main(String[] args) {
         new ExMemoPad3().init();
