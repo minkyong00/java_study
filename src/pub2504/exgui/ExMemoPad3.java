@@ -7,7 +7,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.text.SimpleDateFormat;
@@ -41,6 +44,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 
 import pub2504.network.Data;
 
@@ -312,7 +316,43 @@ public class ExMemoPad3 extends JFrame {
     	if(returnVal == JFileChooser.APPROVE_OPTION) {
     		System.out.println(chooseFile.getSelectedFile());
     		
-    		// reader로 파일 읽어와서 memoList에 보여주기
+    		JsonReader reader = null;
+    		String title = null;
+    		String content = null;
+    		
+    		try {
+    			// gson의 jsonreader로 json 파일 읽어옴
+    			reader = new JsonReader(new FileReader(chooseFile.getSelectedFile()));
+    			// json 배열 시작 [
+    			reader.beginArray();
+    			while(reader.hasNext()) { // 배열 다음 요소가 있는 경우
+    				reader.beginObject(); // 객체 시작 {
+    				
+    				while(reader.hasNext()) { // 객체 다음 요소 있는 경우
+    					String name = reader.nextName(); // key값
+    					if(name.equals("title")) { // key값이 title이면
+    						title = reader.nextString(); // String 다음 토큰 value을 title에 넣음
+    					} else if(name.equals("content")) { // key값이 content이면
+    						content = reader.nextString(); // String 다음 토큰 value을 content에 넣음
+    					} else {
+    						reader.skipValue(); // 다음 value로 스킵
+    					}
+    				}
+    				reader.endObject(); // 객체 끝 }
+    				
+    				// 객체 하나가 끝날 때마다
+    				// UI에 반영될 memoListModel에 memo객체를 넣음
+    				((DefaultListModel<Memo>)memoListModel).addElement(new Memo(title, content));
+    				
+    				// 불러온 파일의 선택하면 파일이 보여지게 하기 위해
+    				// 실제 데이터 리스트 inputMemoList에 memo객체를 넣음
+    				inputMemoList.add(new Memo(title, content));
+    			}
+    			reader.endArray(); // 배열 끝 ]
+    			
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
     	}
     	
     	
