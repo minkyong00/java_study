@@ -4,9 +4,9 @@ public class MemoMain {
 	
 	public static void main(String[] args) {
 		MemoModel memoModel = new MemoModel();
-		memoModel.initModel();
-		
-		MemoUI memoUI = new MemoUI(memoModel.getMemoListModel());
+		MemoUI memoUI = new MemoUI(memoModel);
+		MemoData memoData = new MemoData();
+		new MemoEvent(memoData, memoUI);
 		
 	}
 

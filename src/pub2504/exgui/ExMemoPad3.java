@@ -113,22 +113,7 @@ public class ExMemoPad3 extends JFrame {
          }
       });
         
-        // 저장 클릭 시 파일 json형태로 저장
-        fileMenuItemSave.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				saveFile(inputMemoList);
-			}
-		});
         
-        fileMenuItemOpen.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				openFile();
-			}
-		});
         
         memoListModel = new DefaultListModel<Memo>();
         memoList = new JList<Memo>(memoListModel);
