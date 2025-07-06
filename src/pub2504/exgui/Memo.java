@@ -1,7 +1,10 @@
 package pub2504.exgui;
 
-public class Memo {
+import java.io.Serializable;
 
+public class Memo implements Serializable {
+
+	private String id;
 	private String title;
 	private String content;
 
@@ -9,6 +12,12 @@ public class Memo {
 	}
 
 	public Memo(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
+
+	public Memo(String id, String title, String content) {
+		this.id = id;
 		this.title = title;
 		this.content = content;
 	}
@@ -27,6 +36,14 @@ public class Memo {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Override
