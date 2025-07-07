@@ -20,6 +20,8 @@ import javax.swing.event.MenuListener;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
 public class MemoEvent {
@@ -60,13 +62,17 @@ public class MemoEvent {
 
 		String memoContent = memoUI.memoTextArea.getText().trim();
 		if (!memoContent.isEmpty()) {
-
+			
+			// 메모 객체 id값
+			int idx = memoData.inputMemoList.size() + 1;
+			
 			// 메모 객체 생성
-			Memo newMemo = new Memo(memoTitle, memoContent);
+			Memo newMemo = new Memo(String.valueOf(idx++), memoTitle, memoContent);
 			memoData.inputMemoList.add(newMemo);
-
+			// memoListModel에도 새로운 memo객체 추가되면서 UI바뀜
 			memoUI.memoModel.memoListModel.addElement(newMemo);
 
+			// memo객체 추가되고 텍스트 입력창 초기화
 			memoUI.memoTextArea.setText("");
 			memoUI.memoTextField.setText("");
 			JOptionPane.showMessageDialog(memoUI, "메모가 등록되었습니다.");
@@ -181,7 +187,8 @@ public class MemoEvent {
 
 				// List<Memo> -> json문자열
 				String memo = gson.toJson(memoData.inputMemoList);
-
+				
+				// 데이터 년도월일시분초로 포맷
 				Date date = new Date();
 				SimpleDateFormat sdf = new SimpleDateFormat("YYMMddHHmmss");
 
@@ -192,7 +199,7 @@ public class MemoEvent {
 						JOptionPane.showMessageDialog(memoUI, "저장할 json파일이 없습니다!");
 						return;
 					}
-
+					
 					pw = new PrintWriter("C:\\pub2504\\memojson\\memo_" + sdf.format(date) + ".json");
 					pw.append(memo);
 					pw.flush();
@@ -208,12 +215,14 @@ public class MemoEvent {
 		});
 	} // saveFile
 
+	// memo.json 파일 열기
 	public void openFile() {
 
 		memoUI.fileMenuItemOpen.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// 부모창에서 첨부파일 열기
 				JFileChooser chooseFile = new JFileChooser();
 				int returnVal = chooseFile.showOpenDialog(memoUI);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -221,13 +230,12 @@ public class MemoEvent {
 					String title = null;
 					String content = null;
 					
-					
 					// 선택한 파일을 열면 이전 메모리스트 제거
 					memoUI.memoModel.memoListModel.removeAllElements();
 					memoData.inputMemoList.clear();
 
 					try {
-						// gson의 jsonreader로 json 파일 읽어옴
+						// gson의 jsonReader로 json 파일 읽어옴
 						reader = new JsonReader(new FileReader(chooseFile.getSelectedFile()));
 						// json 배열 시작 [
 						reader.beginArray();
