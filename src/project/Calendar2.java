@@ -65,7 +65,7 @@ public class Calendar2 extends JFrame {
 			int selectedDay = calendar.getDayChooser().getDay();
 			
 			// api의 배당락일 가져와서
-			for(Date date : StockAPI.getExDate()) {
+			for(Date date : new StockAPI_2(new SearchisinCd()).getExDate("dvdnBasDt", "삼성전자")) {
 				
 				// 배당락일 Calendar 생성
 				Calendar exDateCalendar = Calendar.getInstance();
