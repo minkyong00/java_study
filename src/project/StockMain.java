@@ -1,5 +1,7 @@
 package project;
 
+import java.util.List;
+
 public class StockMain {
 
 	public static void main(String[] args) {
@@ -19,7 +21,10 @@ public class StockMain {
 		
 //		System.out.println(new StockAPI_2(new SearchisinCd()).getExDate("dvdnBasDt", "삼성전자"));
 		
+		System.out.println(new StockAPI_2(new SearchisinCd()).isGoodStock("하나금융지주"));
+		
 	} // main
+	
 } // class
 
 
