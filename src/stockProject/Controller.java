@@ -17,9 +17,6 @@ public class Controller {
 
 
 
-	StockAPI_2 stockAPI_2;
-	
-	
 	public void initEvent() {
 		EventGetStockInfo.getStockInfo();
 	}
