@@ -36,7 +36,6 @@
 	<classpathentry kind="lib" path="C:/pub2504/lib/jspecify-1.0.0-sources.jar"/>
 	<classpathentry kind="lib" path="C:/pub2504/lib/junit-4.6.jar"/>
 	<classpathentry kind="lib" path="C:/pub2504/lib/kotlin-stdlib-2.2.0.jar"/>
-	<classpathentry kind="lib" path="C:/pub2504/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"/>
 	<classpathentry kind="lib" path="C:/pub2504/lib/okhttp-3.14.9.jar"/>
 	<classpathentry kind="lib" path="C:/pub2504/lib/okhttp-4.12.0.jar"/>
 	<classpathentry kind="lib" path="C:/pub2504/lib/okio-1.17.5.jar"/>
@@ -95,5 +94,7 @@
 	<classpathentry kind="lib" path="C:/pub2504/lib/selenium-safari-driver-4.34.0-sources.jar"/>
 	<classpathentry kind="lib" path="C:/pub2504/lib/selenium-support-4.34.0.jar"/>
 	<classpathentry kind="lib" path="C:/pub2504/lib/selenium-support-4.34.0-sources.jar"/>
+	<classpathentry kind="lib" path="C:/pub2504/lib/ojdbc6-11.2.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/pub2504/lib/cachedrowset-wrapper-1.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

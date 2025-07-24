@@ -18,7 +18,7 @@ import vo.StockInfoVO;
 public class StockInfoModel {
 	private static final String STOCKINFO_API = "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?serviceKey=bafEXsp3A%2FiNM6SrdTReCSgGSp3PZcxqoiD08onBtPTnKgLGfaCfkXnJa15dbR8zVjWpmN99qG5QMrpT%2FjWbuQ%3D%3D&numOfRows=1&pageNo=1&resultType=json&itmsNm=";
 
-	private DefaultListModel<StockInfoVO> stockInfoList = new DefaultListModel<StockInfoVO>();
+	private static DefaultListModel<StockInfoVO> stockInfoList = new DefaultListModel<StockInfoVO>();
 
 	// 통신 객체 (HTTP Client : HTTP 요청을 보내고 응답받는 객체)
 	private static final OkHttpClient client = new OkHttpClient();
@@ -33,6 +33,7 @@ public class StockInfoModel {
 		return stockInfoList;
 	}
 
+	// 주식 배당금 api에서 사용할 isin 코드를 반환하는 메서드
 	public static String getIsinCd(String itmsNm) {
 
 		Request request = new Request.Builder().url(STOCKINFO_API + itmsNm).build();
@@ -54,5 +55,37 @@ public class StockInfoModel {
 		return isinCd;
 
 	} // getIsinCd
+	
+	// 주식 시세 정보에서 시가총액, isinCode, 시가, 종가, 고가, 저가 데이터를 담는 listModel 반환하는 메서드
+	public static DefaultListModel<StockInfoVO> getStockInfo(String itmsNm) {
+		
+		Request request = new Request.Builder().url(STOCKINFO_API + itmsNm).build();
+		String isinCd = null;
+		
+		try {
+			Response response = client.newCall(request).execute();
+			String json = Objects.requireNonNull(response.body()).string();
+			JsonObject jsonObj = gson.fromJson(json, JsonObject.class);
+			JsonArray itemArray = jsonObj.getAsJsonObject("response").getAsJsonObject("body").getAsJsonObject("items")
+					.getAsJsonArray("item");
+			
+			StockInfoVO stockInfoVO = new StockInfoVO(
+					itemArray.get(0).getAsJsonObject().get("mrktTotAmt").getAsString(), //시가총액
+					itemArray.get(0).getAsJsonObject().get("isinCd").getAsString(), // isinCode
+					itemArray.get(0).getAsJsonObject().get("mkp").getAsString(), // 시가
+					itemArray.get(0).getAsJsonObject().get("clpr").getAsString(), // 종가
+					itemArray.get(0).getAsJsonObject().get("hipr").getAsString(), // 고가
+					itemArray.get(0).getAsJsonObject().get("lopr").getAsString() // 저가
+			);
+			
+			stockInfoList.addElement(stockInfoVO);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return stockInfoList;
+		
+	} // getStockInfo
 
 } // class

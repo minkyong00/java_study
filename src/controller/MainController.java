@@ -8,23 +8,21 @@ public class MainController {
 	MainView mainView;
 	MainModel mainModel;
 	StockInfoController stockInfoController;
-	StockDividendInfoController stockDividendInfoController;
+	StockCalendarController stockCalendarController;
+	StockRetainedController stockRetainedController;
+	StockTableController stockTableController;
 
 	public MainController(MainView mainView, MainModel mainModel) {
 		this.mainModel = mainModel;
 		this.mainView = mainView;
 
-		this.stockDividendInfoController = new StockDividendInfoController(mainModel, mainView);
-		stockDividendInfoController.getDate();
-
+		this.stockCalendarController = new StockCalendarController(mainModel, mainView);
+		this.stockInfoController = new StockInfoController(mainModel, mainView);
+		this.stockRetainedController = new StockRetainedController(mainModel, mainView);
+		this.stockTableController = new StockTableController(mainModel, mainView);
+		
 	}
 
-	public StockInfoController getStockInfoController() {
-		return stockInfoController;
-	}
-
-	public StockDividendInfoController getStockDividendInfoController() {
-		return stockDividendInfoController;
-	}
+	
 
 }

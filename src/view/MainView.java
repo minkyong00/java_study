@@ -27,6 +27,15 @@ public class MainView extends JFrame {
 		StockInfoPanel stockInfoPanel = new StockInfoPanel();
 		tabbedPane.add("종목 정보", stockInfoPanel);
 		
+		// 배당락일 캘린더 패널
+		StockCalendarPanel stockCalendarPanel = new StockCalendarPanel();
+		tabbedPane.add("배당락일 캘린더", stockCalendarPanel);
+		
+		// 보유하고 있는 주식 패널
+		StockRetainedPanel stockRetainedPanel = new StockRetainedPanel();
+		tabbedPane.add("보유하고 있는 주식" , stockRetainedPanel);
+	
+		
 		add(tabbedPane);
 		setVisible(true);
 	}

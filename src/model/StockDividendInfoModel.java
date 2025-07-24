@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import javax.swing.DefaultListModel;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -15,12 +17,15 @@ import com.google.gson.JsonObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import vo.StockDividendInfoVO;
 
 // 주식 배당금 정보 api를 담는 모델
 public class StockDividendInfoModel {
 
 	private static final String STOCK_API = "https://apis.data.go.kr/1160100/service/GetStocDiviInfoService/getDiviInfo?serviceKey=bafEXsp3A%2FiNM6SrdTReCSgGSp3PZcxqoiD08onBtPTnKgLGfaCfkXnJa15dbR8zVjWpmN99qG5QMrpT%2FjWbuQ%3D%3D&pageNo=1&numOfRows=100&resultType=json&isinCd=";
 
+	private static DefaultListModel<StockDividendInfoVO> stockDividendList = new DefaultListModel<StockDividendInfoVO>();
+	
 	// 통신 객체 (HTTP Client : HTTP 요청을 보내고 응답받는 객체)
 	private static final OkHttpClient client = new OkHttpClient();
 	// Gson 객체
@@ -29,7 +34,8 @@ public class StockDividendInfoModel {
 	public StockDividendInfoModel() {
 	}
 	
-	public static List<String> getApi(String str, String itmsNm) {
+	// 주식 배당금 api에서 회사이름, 배당기준일, 현급지급일, 배당타입, 한 주당 배당금, 현금 배당률를 listModel를 반환하는 메서드
+	public static DefaultListModel<StockDividendInfoVO> getApi(String itmsNm) {
 
 		String isinCd = StockInfoModel.getIsinCd(itmsNm);
 
@@ -40,8 +46,6 @@ public class StockDividendInfoModel {
 
 		// request 요청 객체 만들기
 		Request request = new Request.Builder().url(STOCK_API + isinCd).build();
-		// return 할 List를 여기에 생성
-		List<String> cashDvdList = new ArrayList<String>();
 
 		try {
 			// client response
@@ -55,15 +59,23 @@ public class StockDividendInfoModel {
 			JsonArray itemArray = jsonObj.getAsJsonObject("response").getAsJsonObject("body").getAsJsonObject("items")
 					.getAsJsonArray("item");
 
-			// item 배열에서 원하는 요소를 리스트화 시키기
-			cashDvdList = itemArray.asList().stream().map(JsonElement::getAsJsonObject)
-					.map(obj -> obj.get(str).getAsString()).collect(Collectors.toList());
+			StockDividendInfoVO stockDividendInfoVO = new StockDividendInfoVO(
+					itemArray.get(0).getAsJsonObject().get("isinCdNm").getAsString(), // 회사이름
+					itemArray.get(0).getAsJsonObject().get("dvdnBasDt").getAsString(), // 배당기준일
+					itemArray.get(0).getAsJsonObject().get("cashDvdnPayDt").getAsString(), // 현급지급일
+					itemArray.get(0).getAsJsonObject().get("stckDvdnRcdNm").getAsString(), // 배당 타입
+					itemArray.get(0).getAsJsonObject().get("stckGenrDvdnAmt").getAsString(), // 한 주당 배당금
+					itemArray.get(0).getAsJsonObject().get("stckGenrCashDvdnRt").getAsString() // 현금배당률
+			);
+			
+			stockDividendList.addElement(stockDividendInfoVO);
+			
 
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 		
-		return cashDvdList;
+		return stockDividendList;
 	} // getApi
 	
 
