@@ -1,4 +1,4 @@
-package pub2504.jdbc;
+package pub2504.exjdbc;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
